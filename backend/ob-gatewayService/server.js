@@ -9,7 +9,7 @@ app.use(express.json());
 
 // Use the authentication middleware before proxying requests
 app.use("/user", authMiddleware, proxy("http://localhost:8080"));
-app.use("/product", authMiddleware, proxy("http://localhost:8081"));
+app.use("/product", proxy("http://localhost:8010"));
 
 app.listen(3030, () => {
   console.log("Gateway is running on port 3030");

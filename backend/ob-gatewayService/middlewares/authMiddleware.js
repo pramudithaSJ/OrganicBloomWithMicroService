@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/usersModel")
 const asyncHandler = require("express-async-handler");
+
+const product = require("../models/productModel");
 
 const authMiddleware = asyncHandler(async (req, res, next) => {
   let token;
@@ -12,7 +13,7 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
       if (token) {
         const decoded = jwt.verify(token, secretKey);
         console.log("decode", decoded);
-        const user = await User.findById(decoded?.id);
+        const user = await product.findById(decoded?.id);
         req.user = user;
         next();
       }
