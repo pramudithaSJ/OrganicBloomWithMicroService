@@ -1,10 +1,16 @@
-const express = require('express');
-const { proxyMiddleware, authenticate } = require('./middlewares/authMiddleware');
+const express = require("express");
+const proxy = require("express-http-proxy");
+const cors = require("cors");
+const authMiddleware = require("./middlewares/authMiddleware");
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
-app.use('/3000/product', authenticate, proxyMiddleware);
+// Use the authentication middleware before proxying requests
+app.use("/user", authMiddleware, proxy("http://localhost:8080"));
+app.use("/product", authMiddleware, proxy("http://localhost:8081"));
 
-app.listen(3000, () => {
-  console.log('Server is listening on port 3000');
+app.listen(3030, () => {
+  console.log("Gateway is running on port 3030");
 });
