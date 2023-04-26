@@ -29,5 +29,5 @@ app.listen(PORT, () => {
   console.log(`Server is up and running on port number: ${PORT}`);
 });
 
-const productRoute = require("./routes/productsRoutes");
+const productRoute = require("./routes/buyerService");
 app.use("/", productRoute);
