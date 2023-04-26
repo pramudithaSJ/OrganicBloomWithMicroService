@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 //database link
 const URL =
   "mongodb+srv://kushan:J8EXMSRNpPTSU0l4@cluster0.mbzff4m.mongodb.net/test";
-const PORT = 8010;
+const PORT = 8050;
 
 //create mongo configurations
 mongoose.connect(URL, {
