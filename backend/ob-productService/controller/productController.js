@@ -73,6 +73,21 @@ const deleteProduct = async (req, res) => {
     res.json(err.message);
   }
 };
+const searchProducts = async (req, res) => {
+  try {
+    const query = req.params.text;
+    const regex = new RegExp(query, "i");
+    const products = await Product.find({ productName: { $regex: regex } });
+    if (products.length > 0) {
+      res.status(200).json(products);
+    } else {
+      res.status(404).json({ message: "Products not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: error.message });
+  }
+};
 
 module.exports = {
   getAllProducts,
@@ -80,4 +95,5 @@ module.exports = {
   addProduct,
   updateProduct,
   deleteProduct,
+  searchProducts,
 };
