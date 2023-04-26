@@ -17,9 +17,10 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 //database link
-const URL = process.env.MONGODB_URL;
+const URL = "mongodb+srv://kushan:J8EXMSRNpPTSU0l4@cluster0.mbzff4m.mongodb.net/test"
+// 
 
-const PORT = process.env.PORT || 8020;
+const PORT = 8020;
 //create mongo configurations
 
 mongoose.connect(URL, {
@@ -31,9 +32,9 @@ mongoose.connect(URL, {
 const authRouter = require("./routes/userRoute");
 app.use("/user",authRouter)
 
-const { notFound, errorHandler } = require("./middlewares/errorHandler");
-app.use(notFound);
-app.use(errorHandler);
+// const { notFound, errorHandler } = require("./middlewares/errorHandler");
+// app.use(notFound);
+// app.use(errorHandler);
 
 const connection = mongoose.connection;
 connection.once("open",()=>{

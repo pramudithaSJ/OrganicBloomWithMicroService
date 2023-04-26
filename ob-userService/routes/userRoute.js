@@ -4,12 +4,9 @@ const {
     createUser,
     loginUserCtrl,
     handleRefreshToken,
-    logout,
-   
+    logout
    
 } = require("../controller/userCtrl");
-
-
 
 
 router.post("/register",createUser)
