@@ -18,10 +18,12 @@ function ViewProducts() {
       .catch((error) => console.error(error));
   }, [products]);
 
-  const addToCart = ( _id) => {
+  const addToCart = (id) => {
+    const token = localStorage.getItem("token");
+    console.log(id);
     axios.post('http://localhost:8050/', {
         
-      product_id: _id
+      product_id: id
     })
     .then(response => {
       console.log(response);
@@ -31,6 +33,7 @@ function ViewProducts() {
       console.log(error);
     });
   }
+
 
   return (
     <div>
@@ -64,7 +67,7 @@ function ViewProducts() {
                   <button
                     href="#"
                     class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    onClick={() => addToCart( item._id)}
+                    onClick={() => addToCart(item._id)}
                   >
                     Add To Cart
                     <svg

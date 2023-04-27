@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./sharedComponent/login";
 import Sidebar from "./Admin/dashboard";
 import SellerSidebar from "./seller/sellerDashboard";
+import ViewProducts from "./userView/Products/ViewProducts";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" exact element={<Login />} />
         <Route path="/dashboard" exact element={<Sidebar />} />
         <Route path="/Sellerdashboard" exact element={<SellerSidebar />} />
+        <Route path="/products" exact element={<ViewProducts/>} />
       </Routes>
     </BrowserRouter>
   );
