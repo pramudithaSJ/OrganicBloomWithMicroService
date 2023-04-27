@@ -32,25 +32,17 @@ const updateCart = async (req, res) => {
 
 const getCart = async (req, res) => {
   try {
-    var cart = await Cart.findOne({ user_id: req.user._id });
-    // if the cart exist and if the cart has products, get the products rom the cart
-    if (cart && cart.products.length > 0) {
-      for (var index = 0; index < cart.products.length; index++) {
-        try {
-          // add all the product data
-          cart.products[index].data = await Product.findById(
-            cart.products[index].id
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      }
+    console.log(req.params.userId);
+    const cart = await Cart.findOne({ user_id: req.params.userId });
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    } else {
+      return res.status(200).json(cart);
     }
-    return res.status(200).json(cart ? cart : {});
   } catch (error) {
     console.error(error);
     return res.status(400).json({ message: "User cart not found" });
   }
 };
 
-(module.exports = updateCart), getCart;
+module.exports = (updateCart, getCart);

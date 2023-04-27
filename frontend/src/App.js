@@ -7,6 +7,7 @@ import SellerSidebar from "./seller/sellerDashboard";
 import ViewProducts from "./userView/Products/ViewProducts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ViewCart from "./userView/Products/viewCart";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/register" exact element={<Login />} />
           <Route path="/dashboard" exact element={<Sidebar />} />
           <Route path="/Sellerdashboard" exact element={<SellerSidebar />} />
+          <Route path="/cart" exact element={<ViewCart />} />
         </Routes>
       </BrowserRouter>
     </div>
