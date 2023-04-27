@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../Header/Header";
 
-
 function ViewProducts() {
   const [products, setProducts] = useState([]);
 
@@ -20,27 +19,38 @@ function ViewProducts() {
 
   const addToCart = (id) => {
     const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
     console.log(id);
-    axios.post('http://localhost:8050/', {
-        
-      product_id: id
-    })
-    .then(response => {
-      console.log(response);
-      
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  }
-
+    axios
+      .post(
+        "http://localhost:8050/",
+        {
+          user_id: userId,
+          product_id: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
       <Header />
       <section className="w-full m-10">
         <div>
-          <center><h2 className="font-semibold text-3xl">Products</h2></center><br/>
+          <center>
+            <h2 className="font-semibold text-3xl">Products</h2>
+          </center>
+          <br />
         </div>
         <div className="grid grid-cols-4 gap-2 sm:w-full h-full overflow-auto">
           {products.map((item) => (
@@ -61,7 +71,7 @@ function ViewProducts() {
                   <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                     {item.description}
                   </p>
-                  <p class="mb-3 font-normal text-gray-100 dark:text-gray-400 text-lg" >
+                  <p class="mb-3 font-normal text-gray-100 dark:text-gray-400 text-lg">
                     Rs.{item.price}
                   </p>
                   <button
