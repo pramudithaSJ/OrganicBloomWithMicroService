@@ -1,3 +1,4 @@
+import { Button, Link } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,11 +22,10 @@ const customStyles = {
 export default function AllProducts() {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
+  const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
+  const [sellerId, setSellerId] = useState("");
   const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
   const [photo, setPhoto] = useState("");
   const [UpdateModal, setUpdateModal] = useState(false);
   const [UpdateItem, setUpdateItem] = useState("");
@@ -54,7 +54,7 @@ export default function AllProducts() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8020/item/")
+      .get("http://localhost:8050/")
       .then((response) => {
         if (response) {
           setItems(response.data);
@@ -67,7 +67,7 @@ export default function AllProducts() {
 
   const deleteItem = (id) => {
     axios
-      .delete(`http://localhost:8020/item/delete/${id} `)
+      .delete(`http://localhost:8050/${id} `)
       .then(() => {
         toast.error("Deleted Successfully!!");
       })
@@ -80,13 +80,13 @@ export default function AllProducts() {
     console.log(values);
 
     const response = axios
-      .post(`http://localhost:8020/item/add`, {
-        item_code: values.code,
-        item_name: values.name,
+      .post(`http://localhost:8050/`, {
+        productName: values.productName,
         description: values.description,
-        price: values.price,
-        quantity: values.quantity,
         image: proImg,
+        sellerId: values.sellerId,
+        price: values.price,
+        status: status,
       })
       .then(() => {
         toast.success("Added Successfully!!");
@@ -150,7 +150,7 @@ export default function AllProducts() {
 
   function getOne(id) {
     const response = axios
-      .get(`http://localhost:8020/item/get/${id}`)
+      .get(`http://localhost:8050/${id}`)
       .then((response) => {
         setIsOpen(true);
         setCode(response?.data?.item_code);

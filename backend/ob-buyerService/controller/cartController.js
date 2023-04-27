@@ -1,15 +1,15 @@
-const Cart = require("../model/Cart");
+const Cart = require("../models/Cart");
 
 const updateCart = async (req, res) => {
   var cart = await Cart.findOne({ user_id: req.user._id });
   if (!cart) {
     Cart = new Cart({
-      user_id: req.body._id,
-      products: req.body.products,
-      total_value: req.body.total_value,
+      user_id: req.body.user_id,
+      products: req.body.product_id,
+      total_value: req.body.total_value
     });
   } else {
-    cart.products = req.body.products;
+    cart.products = req.body.product_id;
     cart.total_value = req.body.total_value;
   }
   await cart.save();
@@ -39,4 +39,4 @@ const getCart = async (req, res) => {
   }
 };
 
-module.exports = { updateCart, getCart };
+module.exports =  updateCart, getCart ;

@@ -21,11 +21,13 @@ function ViewProducts() {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     console.log(id);
+    
+  
     axios
       .post(
-        "http://localhost:8050/",
+        "http://localhost:8060/",
         {
-          user_id: userId,
+          user_id: "123456",
           product_id: id,
         },
         {
