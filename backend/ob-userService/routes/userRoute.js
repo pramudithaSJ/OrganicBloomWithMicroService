@@ -10,7 +10,7 @@ const {
 
 
 router.post("/register",createUser)
-router.post("/logins", loginUserCtrl)
+router.post("/login", loginUserCtrl)
 router.get("/refresh",handleRefreshToken)
 router.get("/logout",logout)
 
