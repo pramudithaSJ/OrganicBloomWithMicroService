@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AllProducts from "./product/product";
 
-export default function Sidebar() {
+export default function SellerSidebar() {
   const [open, setOpen] = useState(false);
   const [selectedField, setSelectedField] = useState("home");
   let navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function Sidebar() {
             <ul className="pt-2 pb-4 space-y-1 text-sm">
               <li className="rounded-sm">
                 <button
-                  onClick={() => setSelectedField("home")}
+                  onClick={() => setSelectedField("products")}
                   className="flex items-center p-2 space-x-3 rounded-md hover:bg-slate-500 w-full"
                 >
                   <svg
@@ -62,7 +63,7 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="container mx-auto">
-        {selectedField === "instructors" ? <></> : null}
+        {selectedField === "products" ? <AllProducts /> : null}
       </div>
     </div>
   );
