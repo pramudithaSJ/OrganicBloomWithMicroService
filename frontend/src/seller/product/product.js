@@ -1,4 +1,4 @@
-import { Button, Link } from "@mui/material";
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -86,7 +86,7 @@ export default function AllProducts() {
         image: proImg,
         sellerId: values.sellerId,
         price: values.price,
-        status: status,
+        // status: status,
       })
       .then(() => {
         toast.success("Added Successfully!!");
@@ -153,20 +153,19 @@ export default function AllProducts() {
       .get(`http://localhost:8050/${id}`)
       .then((response) => {
         setIsOpen(true);
-        setCode(response?.data?.item_code);
-        setName(response?.data?.item_name);
+        setProductName(response?.data?.productName);
         setDescription(response?.data?.description);
-        setPrice(response?.data?.price);
+        setSellerId(response?.data?.sellerId);
+        setPrice(response?.data?.setPrice);
         setPhoto(response?.data?.photo);
-        setQuantity(response?.data?.quantity);
         setUpdateItem(response?.data?._id);
         console.log(response?.data?._id);
       });
   }
   function updateItem(values) {
     const response = axios
-      .put(`http://localhost:8020/item/updateOne/${UpdateItem}`, {
-        item_code: values.code,
+      .put(`http://localhost:8050/${UpdateItem}`, {
+        productName: values.productName,
         item_name: values.name,
         description: values.description,
         price: values.price,
@@ -476,12 +475,12 @@ export default function AllProducts() {
           {" "}
           <Formik
             initialValues={{
-              code: code,
-              name: name,
-              description: description,
-              price: price,
-              quantity: quantity,
-              image : proImg
+              // code: code,
+              // name: name,
+              // description: description,
+              // price: price,
+              // quantity: quantity,
+              // image : proImg
             }}
             validationSchema={validationSchema}
             onSubmit={updateItem}
@@ -493,7 +492,7 @@ export default function AllProducts() {
                     {" "}
                     <p className="font-semibold">Item Code</p>
                   </div>
-                  <div className="ll">
+                  {/* <div className="ll">
                     {" "}
                     <Field
                       className="border border-grey-dark text-sm p-3 my-1  rounded-md w-full"
@@ -501,7 +500,7 @@ export default function AllProducts() {
                       name="code"
                       setFieldValue={code}
                     />
-                  </div>
+                  </div> */}
 
                   {errors.code && touched.code ? (
                     <div className="text-red-500 text-xs">{errors.code}</div>
