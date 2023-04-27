@@ -23,17 +23,12 @@ function Header() {
               </li>
               <li>
                 <a href="/session" className="hover:text-gray-400">
-                  My Profile
-                </a>
-              </li>
-              <li>
-                <a href="/about" className="hover:text-gray-400">
-                  About Us
+                  My Orders
                 </a>
               </li>
               <li>
                 <a href="/contact" className="hover:text-gray-400">
-                  Contact Us
+                  Login
                 </a>
               </li>
             </ul>
