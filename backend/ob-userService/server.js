@@ -18,7 +18,7 @@ app.use(morgan("dev"));
 
 //database link
 const URL =
-  "mongodb+srv://kushan:J8EXMSRNpPTSU0l4@cluster0.mbzff4m.mongodb.net/test";
+  "mongodb+srv://itpproject2022:vMKyhwZ9nb2qt5Di@organicbloom.1zbkjaw.mongodb.net/?retryWrites=true&w=majority";
 //
 
 const PORT = 8020;
@@ -33,10 +33,6 @@ mongoose.connect(URL, {
 //user
 const authRouter = require("./routes/userRoute");
 app.use("/user", authRouter);
-
-// const { notFound, errorHandler } = require("./middlewares/errorHandler");
-// app.use(notFound);
-// app.use(errorHandler);
 
 const connection = mongoose.connection;
 connection.once("open", () => {
