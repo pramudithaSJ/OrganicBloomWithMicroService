@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../Header/Header";
+import { toast } from "react-toastify";
 
 function ViewProducts() {
   const [products, setProducts] = useState([]);
@@ -32,7 +33,7 @@ function ViewProducts() {
         "http://localhost:8060/",
         {
           user_id: "123456",
-          product_id: id,
+          product_id: "1232323",
         },
         {
           headers: {
@@ -40,7 +41,9 @@ function ViewProducts() {
           },
         }
       )
-      .then((response) => {})
+      .then((response) => {
+        toast.success("Added to cart successfully");
+      })
       .catch((error) => {
         console.log(error);
       });
