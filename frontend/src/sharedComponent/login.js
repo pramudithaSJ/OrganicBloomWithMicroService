@@ -1,13 +1,10 @@
 import * as React from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import login from "../images/login.jpg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-
-
 
 export default function Login() {
   let navigate = useNavigate();
@@ -21,22 +18,25 @@ export default function Login() {
   });
 
   const onSubmit = (values) => {
-    if(values.email=="admin@gmail.com"&& values.password=="1234"){
+    if (values.email == "admin@gmail.com" && values.password == "1234") {
       navigate("/dashboard");
-    }
-    else{
+    } else {
       const responses = axios
 
-      .post(`http://localhost:8020/user/login`, {
-        email: values.email,
-        password: values.password,
-      })
-      .then((response) => {
-        navigate("/home");
-      });
+        .post(`http://localhost:8020/login`, {
+          email: values.email,
+          password: values.password,
+        })
+        .then((response) => {
+          console.log(response.data._id);
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("userId", response.data._id);
+          toast.success("Login Successfully");
+        })
+        .catch((Error) => {
+          toast.error("Invalid Credentials");
+        });
     }
-    
-   
   };
 
   return (

@@ -1,12 +1,12 @@
 import * as React from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import login from "../images/login.jpg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Register() {
   let navigate = useNavigate();
   const initialValues = {
     email: "",
@@ -23,12 +23,15 @@ export default function Login() {
     } else {
       const responses = axios
 
-        .post(`http://localhost:8020/user/login`, {
+        .post(`http://localhost:8020/register`, {
           email: values.email,
           password: values.password,
         })
         .then((response) => {
-          navigate("/home");
+          toast.success("Registered Successfully");
+        })
+        .catch((Error) => {
+          toast.error("Email already exists");
         });
     }
   };
@@ -94,15 +97,15 @@ export default function Login() {
                 "
                   type="submit"
                 >
-                  Login
+                  Register
                 </button>
                 <div className="text-center mt-3">
                   <a
-                    href="/register"
+                    href="/"
                     variant="body2"
                     className="text-black underline"
                   >
-                    {"Don't have an account? Sign Up"}
+                    {" I have an account? Sign In"}
                   </a>
                 </div>
               </Form>

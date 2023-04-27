@@ -32,7 +32,7 @@ mongoose.connect(URL, {
 
 //user
 const authRouter = require("./routes/userRoute");
-app.use("/user", authRouter);
+app.use("/", authRouter);
 
 const connection = mongoose.connection;
 connection.once("open", () => {
