@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: productservice
+  name: paymentservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: productservice
+      app: paymentservice
   template:
     metadata:
       labels:
-        app: productservice
+        app: paymentservice
     spec:
       containers:
-        - name: productservice
-          image: ob/productservice:latest # replace with your Docker image name
+        - name: paymentservice
+          image: ob/paymentservice:latest # replace with your Docker image name
           imagePullPolicy: Never
           ports:
             - containerPort: 8010 # replace with the port your app listens on
@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: productservice
+  name: paymentservice
 spec:
   type: LoadBalancer
   ports:
@@ -31,4 +31,4 @@ spec:
       targetPort: 8010
       protocol: TCP
   selector:
-    app: productservice
+    app: paymentservice
