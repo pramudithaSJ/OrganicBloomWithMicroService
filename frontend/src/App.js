@@ -5,19 +5,23 @@ import Login from "./sharedComponent/login";
 import Sidebar from "./Admin/dashboard";
 import SellerSidebar from "./seller/sellerDashboard";
 import ViewProducts from "./userView/Products/ViewProducts";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" exact element={<ViewProducts />} />
-        <Route path="/login" exact element={<Login />} />
-        <Route path="/register" exact element={<Login />} />
-        <Route path="/dashboard" exact element={<Sidebar />} />
-        <Route path="/Sellerdashboard" exact element={<SellerSidebar />} />
-       
-      </Routes>
-    </BrowserRouter>
+    <div className="App">
+      <ToastContainer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" exact element={<ViewProducts />} />
+          <Route path="/login" exact element={<Login />} />
+          <Route path="/register" exact element={<Login />} />
+          <Route path="/dashboard" exact element={<Sidebar />} />
+          <Route path="/Sellerdashboard" exact element={<SellerSidebar />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

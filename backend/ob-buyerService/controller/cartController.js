@@ -1,19 +1,33 @@
 const Cart = require("../models/Cart");
 
 const updateCart = async (req, res) => {
-  var cart = await Cart.findOne({ user_id: req.user._id });
-  if (!cart) {
-    Cart = new Cart({
-      user_id: req.body.user_id,
-      products: req.body.product_id,
-      total_value: req.body.total_value
-    });
-  } else {
-    cart.products = req.body.product_id;
-    cart.total_value = req.body.total_value;
+  try {
+    const cart = await Cart.findOne({ user_id: req.body.user_id });
+    if (!cart) {
+      const newCart = new Cart({
+        user_id: req.body.user_id,
+        products: [{ product_id: req.body.product_id, quantity: 1 }],
+        total_value: req.body.total_value,
+      });
+      await newCart.save();
+      return res.status(201).json(newCart);
+    } else {
+      const productIndex = cart.products.findIndex(
+        (product) => product.product_id == req.body.product_id
+      );
+      if (productIndex === -1) {
+        cart.products.push({ product_id: req.body.product_id, quantity: 1 });
+      } else {
+        cart.products[productIndex].quantity += 1;
+      }
+      cart.total_value += req.body.total_value;
+      await cart.save();
+      return res.status(200).json(cart);
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
-  await cart.save();
-  res.json(cart);
 };
 
 const getCart = async (req, res) => {
@@ -39,4 +53,4 @@ const getCart = async (req, res) => {
   }
 };
 
-module.exports =  updateCart, getCart ;
+(module.exports = updateCart), getCart;
