@@ -1,12 +1,16 @@
 const { model, Schema } = require("mongoose");
 
-const cartSchema = new Schema(
+const ReviewSchema = new Schema(
   {
-    user_id: { type: String, required: true },
-    products: { type: Array, required: true },
-    total_value: { type: Number, required: false },
+    product_id: { type: String, required: true },
+    review: [
+      {
+        user_id: { type: String, required: true },
+        comment: { type: String, required: true },
+      },
+    ],
   },
   { timestamps: true }
 );
 
-module.exports = model("cart", cartSchema);
+module.exports = model("review", ReviewSchema);
