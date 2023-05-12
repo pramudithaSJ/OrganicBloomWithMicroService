@@ -15,9 +15,6 @@ function ViewProducts() {
       .then((response) => {
         setProducts(response.data);
         console.log(response.data);
-        // if (products != undefined) {
-        // //   console.log(products);
-        // }
       })
       .catch((error) => console.error(error));
   }, []);

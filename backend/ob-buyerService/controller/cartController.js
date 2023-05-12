@@ -45,4 +45,4 @@ const getCart = async (req, res) => {
   }
 };
 
-module.exports = (updateCart, getCart);
+module.exports = {updateCart, getCart};
