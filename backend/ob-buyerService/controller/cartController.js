@@ -6,7 +6,14 @@ const updateCart = async (req, res) => {
     if (!cart) {
       const newCart = new Cart({
         user_id: req.body.user_id,
-        products: [{ product_id: req.body.product_id, quantity: 1 }],
+        products: [
+          {
+            product_id: req.body.product_id,
+            quantity: 1,
+            price: req.body.price,
+            name: req.body.name,
+          },
+        ],
         total_value: req.body.total_value,
       });
       await newCart.save();
@@ -16,11 +23,18 @@ const updateCart = async (req, res) => {
         (product) => product.product_id == req.body.product_id
       );
       if (productIndex === -1) {
-        cart.products.push({ product_id: req.body.product_id, quantity: 1 });
+        cart.products.push({
+          product_id: req.body.product_id,
+          quantity: 1,
+          price: req.body.price,
+          name: req.body.name,
+        });
+        cart.total_value += req.body.price;
       } else {
         cart.products[productIndex].quantity += 1;
+        cart.total_value += req.body.total_value;
       }
-      cart.total_value += req.body.total_value;
+
       await cart.save();
       return res.status(200).json(cart);
     }
@@ -45,4 +59,4 @@ const getCart = async (req, res) => {
   }
 };
 
-module.exports = {updateCart, getCart};
+module.exports = { updateCart, getCart };

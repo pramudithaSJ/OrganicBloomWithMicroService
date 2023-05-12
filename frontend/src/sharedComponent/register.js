@@ -101,7 +101,7 @@ export default function Register() {
                 </button>
                 <div className="text-center mt-3">
                   <a
-                    href="/"
+                    href="/login"
                     variant="body2"
                     className="text-black underline"
                   >

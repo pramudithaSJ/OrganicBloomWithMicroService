@@ -8,6 +8,8 @@ function ViewProducts() {
   const [inputText, setInputText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsBanner, setSearchResultsBanner] = useState(false);
+  const [price, setPrice] = useState();
+  const [name, setName] = useState();
 
   useEffect(() => {
     axios
@@ -23,14 +25,18 @@ function ViewProducts() {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     console.log(id);
+    console.log(price);
+  
 
     axios
       .post(
         "http://localhost:8060/",
         {
-          user_id: "644a029720162eef2f26be5c",
-          product_id: "644a9ffc51a70d44f72e47d6",
-          total_value: 100,
+          user_id: userId,
+          product_id: id,
+          total_value: price,
+          price: price,
+          name: name,
         },
         {
           headers: {
@@ -188,7 +194,14 @@ function ViewProducts() {
                       <button
                         href="#"
                         class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        onClick={() => addToCart(item._id)}
+                        onClick={() => {
+                          setPrice(item.price);
+                          setName(item.productName);
+
+                          if (price !== undefined) {
+                            addToCart(item._id);
+                          }
+                        }}
                       >
                         Add To Cart
                         <svg
@@ -237,7 +250,13 @@ function ViewProducts() {
                       <button
                         href="#"
                         class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        onClick={() => addToCart(item._id)}
+                        onClick={() => {
+                          setPrice(item.price);
+                          setName(item.productName);
+                          if (price !== undefined) {
+                            addToCart(item._id);
+                          }
+                        }}
                       >
                         Add To Cart
                         <svg
