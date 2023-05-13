@@ -23,9 +23,26 @@ function ViewCart() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
+
+  const [order, setOrder] = useState();
+
   useEffect(() => {
     fetchCart();
+    fetchOrder();
   }, []);
+  const fetchOrder = async () => {
+    try {
+      const response = await axios
+        .get(`http://localhost:8060/order/${userId}`)
+        .then((response) => {
+          console.log(response);
+          setOrder(response.data);
+        }); // Replace '123' with the actual user ID
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const fetchCart = async () => {
     try {
       const response = await axios
@@ -122,7 +139,10 @@ function ViewCart() {
 
       <button
         className="bg-slate-800 text-white px-5 py-2 mt-20 mx-10 hover:bg-slate-700"
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true);
+          placeOrder();
+        }}
       >
         Place Order
       </button>
@@ -134,7 +154,7 @@ function ViewCart() {
       >
         <div className="m-10">
           {" "}
-          <Formik onSubmit={placeOrder}>
+          <Formik>
             {({ errors, touched }) => (
               <Form>
                 <div className="flex-col w-full">
@@ -161,7 +181,7 @@ function ViewCart() {
                     <Field
                       className="border border-grey-dark text-sm p-3 my-1  rounded-md w-full"
                       type="number"
-                      name="phone"
+                      name=""
                     />
                   </div>
                 </div>
@@ -192,6 +212,7 @@ function ViewCart() {
                     className="bg-green-600 text-white w-full py-2 mt-2 hover:bg-white hover:text-black border-2
                 "
                     type="submit"
+                    onClick={() => setIsOpen(false)}
                   >
                     Place Order
                   </button>

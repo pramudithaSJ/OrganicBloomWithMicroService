@@ -39,4 +39,17 @@ const getOrderDetails = async (req, res) => {
     return res.status(400).json({ message: "Order not found" });
   }
 };
-module.exports = { createOrder, getOrderDetails };
+const getOrdersByUserId = async (req, res) => {
+  try {
+    let orders = await order.find({ user_id: req.params.userId });
+    if (orders.length > 0) {
+      return res.status(200).json(orders);
+    } else {
+      return res.status(400).json({ message: "No orders found for the user" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ message: "Error retrieving orders" });
+  }
+};
+module.exports = { createOrder, getOrderDetails, getOrdersByUserId };
