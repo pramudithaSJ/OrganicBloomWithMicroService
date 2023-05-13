@@ -6,9 +6,6 @@ const createOrder = async (req, res) => {
       order_status: req.body.order_status,
       user_id: req.body.user_id,
       products: req.body.products,
-      buyer_name: req.body.buyer_name,
-      buyer_email: req.body.buyer_email,
-      buyer_phone: req.body.buyer_phone,
       payment_value: req.body.payment_value,
       payment_type: req.body.payment_type,
       payment_status: req.body.payment_status,
@@ -42,4 +39,4 @@ const getOrderDetails = async (req, res) => {
     return res.status(400).json({ message: "Order not found" });
   }
 };
-module.exports = (createOrder, getOrderDetails);
+module.exports = { createOrder, getOrderDetails };

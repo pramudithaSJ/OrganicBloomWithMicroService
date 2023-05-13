@@ -2,10 +2,25 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../Header/Header";
 import { toast } from "react-toastify";
+import Modal from "react-modal";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "20%",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    padding: "10px",
+  },
+};
 
 function ViewCart() {
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   useEffect(() => {
@@ -29,8 +44,28 @@ function ViewCart() {
     try {
       await axios.post("/api/cart", {
         user_id: "123", // Replace '123' with the actual user ID
-        product_id: productId,
+        product_id: products._id,
+
         total_value: 0,
+      });
+      fetchCart();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const placeOrder = async (value) => {
+    try {
+      await axios.post(`http://localhost:8060/create`, {
+        order_status: "pending",
+        user_id: userId,
+        products: products,
+        payment_value: cart?.total_value,
+        payment_type: "card",
+        payment_status: "pending",
+        delivery_type: "pickup",
+        delivery_address: "kottawa",
+        delivery_status: "pending",
       });
       fetchCart();
     } catch (error) {
@@ -85,9 +120,87 @@ function ViewCart() {
         ))}
       <p>Total Amount: {cart?.total_value}</p>
 
-      <button className="bg-slate-800 text-white px-5 py-2 mt-20 mx-10 hover:bg-slate-700">
+      <button
+        className="bg-slate-800 text-white px-5 py-2 mt-20 mx-10 hover:bg-slate-700"
+        onClick={() => setIsOpen(true)}
+      >
         Place Order
       </button>
+
+      <Modal
+        isOpen={modalIsOpen}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <div className="m-10">
+          {" "}
+          <Formik onSubmit={placeOrder}>
+            {({ errors, touched }) => (
+              <Form>
+                <div className="flex-col w-full">
+                  <div className="ll">
+                    {" "}
+                    <p className="font-semibold">Delivery Address</p>
+                  </div>
+                  <div className="ll">
+                    {" "}
+                    <Field
+                      className="border border-grey-dark text-sm p-3 my-1  rounded-md w-full"
+                      type="text"
+                      name=""
+                    />
+                  </div>
+                </div>
+                <div className="flex-col w-full">
+                  <div className="ll">
+                    {" "}
+                    <p className="font-semibold">Phone Number</p>
+                  </div>
+                  <div className="ll">
+                    {" "}
+                    <Field
+                      className="border border-grey-dark text-sm p-3 my-1  rounded-md w-full"
+                      type="number"
+                      name="phone"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex-col w-full">
+                  <div className="ll">
+                    {" "}
+                    <p className="font-semibold">Delivery Type</p>
+                  </div>
+                  <div className="ll">
+                    {" "}
+                    <select className="w-full px-10 border-2 ">
+                      <option value="pickup">Pickup</option>
+                      <option value="delivery">Delivery</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <button
+                    className="bg-red-600 text-white w-full py-2 mt-2 hover:bg-white hover:text-black border-2
+                "
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-green-600 text-white w-full py-2 mt-2 hover:bg-white hover:text-black border-2
+                "
+                    type="submit"
+                  >
+                    Place Order
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </Modal>
     </div>
   );
 }
