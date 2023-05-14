@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: productservice
+  name: userservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: productservice
+      app: userservice
   template:
     metadata:
       labels:
-        app: productservice
+        app: userservice
     spec:
       containers:
-        - name: productservice
-          image: ob/productservice:latest # replace with your Docker image name
+        - name: userservice
+          image: ob/userservice:latest # replace with your Docker image name
           imagePullPolicy: Never
           ports:
             - containerPort: 8010 # replace with the port your app listens on
@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: productservice
+  name: userservice
 spec:
   type: LoadBalancer
   ports:
@@ -31,4 +31,4 @@ spec:
       targetPort: 8010
       protocol: TCP
   selector:
-    app: productservice
+    app: userservice

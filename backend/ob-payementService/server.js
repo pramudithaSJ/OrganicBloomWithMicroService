@@ -14,6 +14,9 @@ const app = express();
 app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
 const PORT = 8030;
 app.listen(PORT, () => console.log(`Server Started on ${PORT}`));
+
+//sandbox view
+
 app.post("/pay", (req, res) => {
   const create_payment_json = {
     intent: "sale",

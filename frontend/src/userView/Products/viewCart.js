@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "../Header/Header";
 import { toast } from "react-toastify";
 import Modal from "react-modal";
@@ -37,6 +38,7 @@ function ViewCart() {
         .then((response) => {
           console.log(response);
           setOrder(response.data);
+          console.log(order);
         }); // Replace '123' with the actual user ID
     } catch (error) {
       console.error(error);
@@ -55,6 +57,10 @@ function ViewCart() {
     } catch (error) {
       console.error(error);
     }
+  };
+  // payment Part
+  const submitPayment = async () => {
+    await axios.post(`http://localhost:8030/pay`);
   };
 
   const increaseQuantity = async (productId) => {
@@ -147,6 +153,52 @@ function ViewCart() {
         Place Order
       </button>
 
+      <section>
+        <div className="p-4">
+          <ul className="mb-4">
+            {order &&
+              order.map((order) => (
+                <div>
+                  {" "}
+                  <h1 className="text-2xl font-bold mb-4">
+                    Order ID:{order._id}
+                  </h1>
+                  <div className="w-full flex">
+                    <div className="w-2/3">
+                      <h1 className="bg-yellow-400 p-5">
+                        Order payment Status:{order.order_status}
+                      </h1>
+                      <div className="w-1/3">
+                        <button
+                          className="bg-green-600 p-5 mt-10 hover:bg-green-300"
+                          onClick={submitPayment}
+                        >
+                          {" "}
+                          Pay Now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <h2 className="text-lg font-bold mb-2">Products:</h2>
+                  {order.products.map((product) => (
+                    <li
+                      key={product._id}
+                      className="flex justify-between bg-gray-300 py-2 my-2 px-1"
+                    >
+                      <span>{product.name}</span>
+                      <span>{product.quantity}</span>
+                      <span>{product.price}</span>
+                    </li>
+                  ))}
+                  <p className="font-bold bg-slate-500 py-2 px-1">
+                    Total Amount: Rs.{order?.payment_value}.00
+                  </p>
+                </div>
+              ))}
+          </ul>
+        </div>
+      </section>
+
       <Modal
         isOpen={modalIsOpen}
         style={customStyles}
@@ -212,7 +264,9 @@ function ViewCart() {
                     className="bg-green-600 text-white w-full py-2 mt-2 hover:bg-white hover:text-black border-2
                 "
                     type="submit"
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      window.location.reload();
+                    }}
                   >
                     Place Order
                   </button>

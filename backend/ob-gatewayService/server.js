@@ -21,7 +21,11 @@ connection.once("open", () => {
 });
 // Use the authentication middleware before proxying requests
 app.use("/user", authMiddleware, proxy("http://localhost:8080"));
-app.use("/product", authMiddleware, proxy("http://localhost:8050"));
+app.use("/product", authMiddleware, proxy("http://localhost:8010"));
+app.use("/cart", authMiddleware, proxy("http://localhost:8020"));
+app.use("/order", authMiddleware, proxy("http://localhost:8030"));
+app.use("/payment", authMiddleware, proxy("http://localhost:8040"));
+app.use("/delivery", authMiddleware, proxy("http://localhost:8050"));
 
 app.listen(3030, () => {
   console.log("Gateway is running on port 3030");

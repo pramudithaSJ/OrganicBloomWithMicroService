@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +17,6 @@ const customStyles = {
   },
 };
 
-
 export default function AllProducts() {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
@@ -37,6 +35,8 @@ export default function AllProducts() {
     description: "",
     quantity: 0,
   };
+
+  const userId = localStorage.getItem("userId");
 
   const validationSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
@@ -58,6 +58,7 @@ export default function AllProducts() {
       .then((response) => {
         if (response) {
           setItems(response.data);
+          console.log(response.data);
         } else {
           toast.error("Error While Fetching Data!!");
         }
@@ -81,12 +82,13 @@ export default function AllProducts() {
 
     const response = axios
       .post(`http://localhost:8050/`, {
-        productName: values.productName,
+        productName: values.name,
         description: values.description,
         image: proImg,
-        sellerId: values.sellerId,
+        sellerId: userId,
         price: values.price,
-        // status: status,
+
+        status: true,
       })
       .then(() => {
         toast.success("Added Successfully!!");
@@ -146,7 +148,6 @@ export default function AllProducts() {
       });
     setFile(e.target.file);
   };
-
 
   function getOne(id) {
     const response = axios
@@ -244,11 +245,16 @@ export default function AllProducts() {
                   >
                     {item.item_code}
                   </th>
-                  <td class="px-6 py-4">{item.item_name}</td>
+                  <td class="px-6 py-4">{item.productName}</td>
                   <td class="px-6 py-4">{item.description}</td>
                   <td class="px-6 py-4">{item.price}</td>
                   <td class="px-6 py-4">{item.quantity}</td>
-                  <td class="px-6 py-4"><img src={item.image} style={{width:"64px" , height:"64px"}}></img></td>
+                  <td class="px-6 py-4">
+                    <img
+                      src={item.image}
+                      style={{ width: "64px", height: "64px" }}
+                    ></img>
+                  </td>
                   <td class="px-1 py-4 w-full justify-center flex gap-4">
                     <button
                       className="font-medium text-yellow-300 hover:text-yellow-100"
@@ -474,14 +480,16 @@ export default function AllProducts() {
         <div>
           {" "}
           <Formik
-            initialValues={{
-              // code: code,
-              // name: name,
-              // description: description,
-              // price: price,
-              // quantity: quantity,
-              // image : proImg
-            }}
+            initialValues={
+              {
+                // code: code,
+                // name: name,
+                // description: description,
+                // price: price,
+                // quantity: quantity,
+                // image : proImg
+              }
+            }
             validationSchema={validationSchema}
             onSubmit={updateItem}
           >

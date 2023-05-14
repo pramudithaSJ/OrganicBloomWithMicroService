@@ -13,7 +13,11 @@ function ViewProducts() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8050/")
+      .get("http://localhost:8050", {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NGEwMjk3MjAxNjJlZWYyZjI2YmU1YyIsImlhdCI6MTY4MjU3MTkzNywiZXhwIjoxNjgyNjU4MzM3fQ.wChu76oTtZo1ws2jfECFku_V8pOCbOXrBkDHON6IGU4`,
+        },
+      })
       .then((response) => {
         setProducts(response.data);
         console.log(response.data);
@@ -26,8 +30,7 @@ function ViewProducts() {
     const userId = localStorage.getItem("userId");
     console.log(id);
     console.log(price);
-  
-
+    // use axios library
     axios
       .post(
         "http://localhost:8060/",
